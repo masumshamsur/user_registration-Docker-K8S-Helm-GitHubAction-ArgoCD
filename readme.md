@@ -1,25 +1,37 @@
-# App creation-
+# Registration App
 
-registration-app/
+## Overview
+This project consists of two applications:
+1. **registration-app** - A user registration application.
+2. **usersDashboard-app** - A dashboard to retrieve and display registered user data.
 
-Created an application that will have registraion page with -
-Wellcome to the Registration Page!!
-Ask user for entering Name, Email and Country.
+---
 
-Once user enter the information and click on submit button, display the entered information saying- You have entered <info>.
-Save the user data in postgresSQL database (will use postgresSQL database docker image for storing data).
-Created app with javascript and/or HTML.
+## App Details
 
+### **registration-app**
+This application provides a registration page where users can enter their details:
+- Name
+- Email
+- Country
 
-usersDashboard-app/
+Upon submission:
+- The entered information is displayed as confirmation.
+- Data is stored in a PostgreSQL database (hosted using a PostgreSQL Docker image).
+- Built with JavaScript and HTML.
 
-Create another app that with retrieve the user registration data from the registration database and users table
-- display the number of user already registered.
-- also give an option to search the user list by country name and display data in a tabler form.
+### **usersDashboard-app**
+A dashboard application to:
+- Retrieve registered user data from the database.
+- Display the total number of registered users.
+- Provide a search functionality to filter users by country.
+- Display the user data in a tabular format.
 
+---
 
-Current project structure-
+## Project Structure
 
+```
 USER_REGISTRATION/
 ├── k8s/
 │   ├── config-map.yaml
@@ -58,112 +70,122 @@ USER_REGISTRATION/
 │   ├── package.json
 │
 ├── readme.md
+```
 
+---
 
-Project repo- https://github.com/masumshamsur/registration-app
+## Project Repository
 
+[GitHub Repository](https://github.com/masumshamsur/registration-app)
 
+---
 
-Project instalation instruction-
+## Installation Instructions
 
-To get the `node_modules`, `package.json`, and `package-lock.json` files in your project, follow these steps:
+### **Step 1: Initialize the Project**
+Navigate to the respective project directory (`registration-app/` or `users-dashboard-app/`) and run:
 
-1. Initialize the `package.json` File**
-
-Navigate to the directory of your project (`registration/` or `usersDashboard/`) in the terminal and run:
-
-
+```sh
 npm init -y
+```
 
+This will create a `package.json` file if it does not already exist.
 
-- This creates a basic `package.json` file with default values.
-- The `y` flag accepts all the default settings (name, version, entry point, etc.).
+### **Step 2: Install Dependencies**
+Run the following command to install the required dependencies:
 
-If you already have a `package.json` file, you can skip this step.
-
-2. Install Dependencies
-
-In the same directory, run:
-
+```sh
 npm install express pg
-
+```
 
 This will:
-- Install the required dependencies (`express` and `pg` in this case).
-- Create a `node_modules/` directory with the installed libraries and their dependencies.
-- Automatically create or update the `package-lock.json` file to lock the versions of the installed libraries.
+- Install required dependencies (`express` and `pg`).
+- Create a `node_modules/` directory.
+- Generate a `package-lock.json` file.
 
-If you're using a Mac M1/M2 and targeting a Linux environment, build the image for the correct platform:
+---
 
+## Docker Setup
+
+### **Building the Docker Image**
+If you're using an M1/M2 Mac and targeting a Linux environment, build the image using:
+
+```sh
 docker buildx build --platform linux/amd64 -t masum012924/registration-app:v1 .
+```
 
+### **Pushing the Image to Docker Hub**
 
-push the image to docker repo-
+```sh
 docker push masum012924/registration-app:v1
+```
 
+### **Running the Image Locally**
 
-run the image in local machine-
-docker run -d -p 3000:3000 registration-app:v1
+```sh
+docker run -d -p 3000:3000 masum012924/registration-app:v1
+```
 
+---
 
-Troubleshooting—-
-Verify Database Existence and Table Structure**
+## Troubleshooting
 
-Ensure that the `users` table exists in your `registration` database. You can connect to the database from within the PostgreSQL pod and verify:
+### **Verify Database and Table Structure**
+Ensure the `users` table exists in the PostgreSQL database:
 
-1. **Get the PostgreSQL pod name**:
-    
+1. **Get PostgreSQL Pod Name**:
+    ```sh
     kubectl get pods
-    
-    
-2. **Connect to the PostgreSQL pod**:
-    
+    ```
+2. **Connect to the PostgreSQL Pod**:
+    ```sh
     kubectl exec -it <postgres-pod-name> -- /bin/bash
-
-    
+    ```
 3. **Access PostgreSQL**:
-
+    ```sh
     psql -U postgres -d registration
-
-    
-4. **Check if the `users` table exists**:
-    
+    ```
+4. **Check for Existing Tables**:
     ```sql
     \dt
     ```
-    
-    If you don't see the `users` table, you can create it using:
-    
+   If `users` table does not exist, create it using:
+    ```sql
     CREATE TABLE users (
         id SERIAL PRIMARY KEY,
         name VARCHAR(100),
         email VARCHAR(100),
         country VARCHAR(100)
+    );
+    ```
 
-    
+### **View User Records**
+To view registered users, run:
 
-Here's how you can view the records in the `users` table:
+```sql
+SELECT * FROM users;
+```
 
-1. While still connected to your `registration` database (you're at the `registration=#` prompt), run the following SQL query to see all the records in the `users` table:
+If no data exists, you will see:
+```
+id | name | email | country
+----+------+-------+---------
+(0 rows)
+```
 
-    SELECT * FROM users;
+### **Insert Sample Data (Optional)**
+If needed, manually insert test data:
 
-    
-2. This will display all the rows in the `users` table. If you don't have any data yet, it will show an empty result set, like:
-    
-    id | name | email | country
-    ----+------+-------+---------
-    (0 rows)
-
-    
-
-### Inserting Data Manually (Optional)
-
-If you want to manually insert some test data into the table to check everything works, you can run the following SQL:
-
+```sql
 INSERT INTO users (name, email, country) VALUES
 ('John Doe', 'john.doe@example.com', 'USA'),
 ('Jane Smith', 'jane.smith@example.com', 'Canada');
+```
 
+After inserting, visiting `/users` in the dashboard should return the test data.
 
-Now, when you visit the `/users` route in your app, it should return the inserted data.
+---
+
+## License
+This project is open-source and available under the [MIT License](LICENSE).
+
