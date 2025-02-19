@@ -76,7 +76,7 @@ USER_REGISTRATION/
 
 ## Project Repository
 
-[GitHub Repository](https://github.com/masumshamsur/registration-app)
+[GitHub Repository](https://github.com/infosecsingh/Flask-App-GitHub-Actions-ArgoCD)
 
 ---
 
