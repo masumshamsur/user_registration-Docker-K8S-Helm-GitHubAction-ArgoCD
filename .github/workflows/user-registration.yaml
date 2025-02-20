@@ -5,7 +5,6 @@ on:
     branches:
       - develop
 
-
 jobs:
   build:
     name: build
@@ -22,18 +21,43 @@ jobs:
 
     # Setup nodeJS
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
-        node-version: '14'
+        node-version: ${{ matrix.node }}
     
+    # Cache node modules for registration-app    
+    - name: Cache node modules for registration-app
+      uses: actions/cache@v3
+      with:
+        path: registration-app/node_modules
+        key: ${{ runner.os }}-registration-app-node-modules-${{ hashFiles('registration-app/package-lock.json') }}
+        restore-keys: |
+           ${{ runner.os }}-registration-app-node-modules-    
+
+   # Cache node modules for users-dashboard-app        
+    - name: Cache node modules for users-dashboard-app
+      uses: actions/cache@v3
+      with:
+        path: users-dashboard-app/node_modules
+        key: ${{ runner.os }}-users-dashboard-app-node-modules-${{ hashFiles('users-dashboard-app/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-users-dashboard-app-node-modules-      
+
+    # Install dependencies for registration-app
+    - name: Install dependencies for registration-app
+      run: |
+        cd registration-app
+        npm install
+
+    # Install dependencies for users-dashboard-app
+    - name: Install dependencies for users-dashboard-app
+      run: |
+        cd users-dashboard-app
+        npm install
+          
     # Docker Setup
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
-
-    # Install dependencies
-    - name: Install dependencies
-      run: |
-        npm install
 
      # Login to Docker Hub
     - name: Login to Docker Hub
