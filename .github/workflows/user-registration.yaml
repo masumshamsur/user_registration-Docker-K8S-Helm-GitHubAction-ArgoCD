@@ -17,31 +17,14 @@ jobs:
     steps:
     # Checkout the repository    
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Setup nodeJS
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node }}
-    
-    # Cache node modules for registration-app    
-    - name: Cache node modules for registration-app
-      uses: actions/cache@v3
-      with:
-        path: registration-app/node_modules
-        key: ${{ runner.os }}-registration-app-node-modules-${{ hashFiles('registration-app/package-lock.json') }}
-        restore-keys: |
-           ${{ runner.os }}-registration-app-node-modules-    
-
-   # Cache node modules for users-dashboard-app        
-    - name: Cache node modules for users-dashboard-app
-      uses: actions/cache@v3
-      with:
-        path: users-dashboard-app/node_modules
-        key: ${{ runner.os }}-users-dashboard-app-node-modules-${{ hashFiles('users-dashboard-app/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-users-dashboard-app-node-modules-      
+        cache: 'npm'    # ✅ Automatically caches `node_modules`   
 
     # Install dependencies for registration-app
     - name: Install dependencies for registration-app
