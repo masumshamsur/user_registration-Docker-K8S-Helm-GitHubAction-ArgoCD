@@ -11,10 +11,10 @@ jobs:
     name: build
     strategy:
       matrix:
-        node: [18, 20]
+        node: [20]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os}}  # Use the matrix OS   
-    
+
     steps:
     # Checkout the repository    
     - name: Checkout repository
