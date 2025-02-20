@@ -19,18 +19,27 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Setup nodeJS
-    - name: Setup Node.js
+    # Setup nodeJS for registration-app
+    - name: Setup Node.js for registration-app
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node }}
-        cache: 'npm'    # ✅ Automatically caches `node_modules`   
+        cache: 'npm'    # Automatically caches `node_modules`  
+        cache-dependency-path: registration-app/package-lock.json  # ✅ Tell GitHub Actions where to find package-lock.json 
 
     # Install dependencies for registration-app
     - name: Install dependencies for registration-app
       run: |
         cd registration-app
         npm install
+
+    # Setup nodeJS for users-dashboard-app
+    - name: Setup Node.js for users-dashboard-app
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node }}
+        cache: 'npm'    # Automatically caches `node_modules`  
+        cache-dependency-path: users-dashboard-app/package-lock.json  # ✅ Tell GitHub Actions where to find package-lock.json 
 
     # Install dependencies for users-dashboard-app
     - name: Install dependencies for users-dashboard-app
