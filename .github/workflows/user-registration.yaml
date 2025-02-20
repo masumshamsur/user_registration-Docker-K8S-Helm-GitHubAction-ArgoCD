@@ -32,7 +32,7 @@ jobs:
     
     # Upload Context as Atrifact     
     - name: Upload Context as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
           name: github-context
           path: context-info.txt
