@@ -1,6 +1,6 @@
 name: user registration
 on:
-  #workflow_dispatch:  
+  workflow_dispatch:  
   push:
     branches:
       - develop
@@ -8,9 +8,14 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: build
+    strategy:
+      matrix:
+        node: [18, 20]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os}}  # Use the matrix OS   
+    
     steps:
-
     # Checkout the repository    
     - name: Checkout repository
       uses: actions/checkout@v2
