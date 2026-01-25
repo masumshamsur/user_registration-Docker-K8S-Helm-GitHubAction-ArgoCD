@@ -2,14 +2,14 @@ replicaCount: 1
 registrationApp:
   image:
     repository: masum012924/registration-app
-    tag: v20250302042656
+    tag: v20260125040103
   service:
     port: 3000
     type: NodePort
 usersDashboard:
   image:
     repository: masum012924/users-dashboard-app
-    tag: v20250302042656
+    tag: v20260125040103
   service:
     port: 80
     targetPort: 4000
