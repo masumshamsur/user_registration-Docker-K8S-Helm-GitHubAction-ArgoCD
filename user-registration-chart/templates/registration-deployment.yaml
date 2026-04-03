@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}-registration-app-deployment
+  namespace: {{ .Values.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -22,6 +23,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Chart.Name }}-registration-app-service
+  namespace: {{ .Values.namespace }}
 spec:
   selector:
     app: registration-app

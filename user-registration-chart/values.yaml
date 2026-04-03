@@ -1,4 +1,5 @@
 replicaCount: 1
+namespace: registration-js
 registrationApp:
   image:
     repository: masum012924/registration-app
